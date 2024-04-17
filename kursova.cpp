@@ -442,6 +442,7 @@ void readFromFile(Agency& A) {
 
 
 void saveToFile(const Agency& A) {
+    
     ofstream outputFile("record.txt");
     if (outputFile.is_open()) {
         for (unsigned int i = 0; i < A.Properties_count; ++i) {
