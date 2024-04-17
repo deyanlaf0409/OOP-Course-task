@@ -53,17 +53,17 @@ public:
     bool tempRent;
 
     cout << "Enter Address: ";
-    getline(cin >> ws, tempAddress); // Read input with spaces
+    getline(cin >> ws, tempAddress); 
     Address = tempAddress;
 
     cout << "Enter Owner full name: ";
-    getline(cin >> ws, tempName); // Read input with spaces
+    getline(cin >> ws, tempName); 
     owner.Name = tempName;
 
     cout << "Enter Owner contact number: ";
     while (!(cin >> tempTelNumber)) {
         cout << "Invalid input. Please enter a valid contact number: ";
-        cin.clear(); // Clear error flags
+        cin.clear(); 
     }
     owner.TelNumber = tempTelNumber;
     
@@ -293,7 +293,6 @@ public:
 
     void add(Property* prop) {
         if (Properties_count >= capacity) {
-            // Resize the array if needed
             resize();
         }
         Properties[Properties_count] = prop;
@@ -318,17 +317,13 @@ public:
 
 
     void resize() {
-        // Double the capacity
         unsigned int newCapacity = (capacity == 0) ? 1 : capacity * 2;
         Property** newProperties = new Property*[newCapacity];
-        // Copy existing properties
         for (unsigned int i = 0; i < Properties_count; ++i) {
             newProperties[i] = Properties[i];
         }   
 
-        // Free the old array
         delete[] Properties;
-        // Update properties and capacity
         Properties = newProperties;
         capacity = newCapacity;
     }
@@ -411,34 +406,33 @@ void readFromFile(Agency& A) {
                 float price, area, gardenArea;
                 bool rent, elevator, electricity, water, road;
 
-                getline(inputFile, type); // Read property type
-                getline(inputFile, address); // Read property address
-                getline(inputFile, ownerName); // Read owner name
-                inputFile >> telNumber >> price >> area >> rent; // Read owner contact number, price, area, and rent status
-                inputFile.ignore(); // Consume newline character
+                getline(inputFile, type); 
+                getline(inputFile, address); 
+                getline(inputFile, ownerName); 
+                inputFile >> telNumber >> price >> area >> rent; 
+                inputFile.ignore(); 
                 
                 if (type == "Apartment") {
-                    inputFile >> rooms >> floor >> elevator; // Read rooms, floor, and elevator status
-                    inputFile.ignore(); // Consume newline character
+                    inputFile >> rooms >> floor >> elevator; 
+                    inputFile.ignore(); 
                     Owner owner = {telNumber, ownerName};
                     Apartment* apartment = new Apartment(address, owner, price, area, rent, rooms, floor, elevator);
                     A.add(apartment);
                 }
                 else if (type == "House") {
-                    inputFile >> rooms >> floor >> gardenArea; // Read rooms, floor, and elevator status
-                    inputFile.ignore(); // Consume newline character
+                    inputFile >> rooms >> floor >> gardenArea; 
+                    inputFile.ignore();
                     Owner owner = {telNumber, ownerName};
                     House* house = new House(address, owner, price, area, rent, rooms, floor, gardenArea);
                     A.add(house);
                 }
                 else if (type == "Land") {
-                    inputFile >> electricity >> water >> road; // Read rooms, floor, and elevator status
-                    inputFile.ignore(); // Consume newline character
+                    inputFile >> electricity >> water >> road;
+                    inputFile.ignore(); 
                     Owner owner = {telNumber, ownerName};
                     Land* land = new Land(address, owner, price, area, rent, electricity, water, road);
                     A.add(land);
                 }
-                // Add support for other property types if needed
             }
         }
         inputFile.close();
@@ -470,7 +464,6 @@ void saveToFile(const Agency& A) {
                 Land* land = dynamic_cast<Land*>(prop);
                 outputFile << land->electricity << " " << land->water << " " << land->road << endl;
             }
-            // Add support for other property types if needed
         }
         outputFile.close();
         cout << "Data saved to record.txt successfully." << endl;
@@ -489,8 +482,7 @@ int main() {
     char choice;
 
     do {
-        system("clear"); // For Unix-like systems
-        // system("cls"); // For Windows
+        system("clear"); 
 
         showMainMenu();
         cout << "Enter your choice: ";
@@ -500,8 +492,7 @@ int main() {
             case '1': {
                 char addChoice;
                 do {
-                    system("clear"); // For Unix-like systems
-                    // system("cls"); // For Windows
+                    system("clear"); 
 
                     AddMenu();
                     cout << "Enter your choice: ";
@@ -525,13 +516,13 @@ int main() {
                             A.add(newLand);
                             break;
                         }
-                        case 27: // Escape key ASCII value
-                            break; // Exit add menu
+                        case 27: 
+                            break; 
                         default:
                             cout << "Invalid choice. Try again." << endl;
                             break;
                     }
-                } while (addChoice != 27); // Loop until escape key is pressed
+                } while (addChoice != 27); 
                 break;
             }
             case '2': {
@@ -539,8 +530,7 @@ int main() {
                 bool deleted = false;
 
                 do {
-                    system("clear"); // For Unix-like systems
-                    // system("cls"); // For Windows
+                    system("clear"); 
 
                     cout << "Delete Property:" << endl;
                     cout << "------------------" << endl;
@@ -549,11 +539,10 @@ int main() {
                     cin >> input;
 
                     if (input == 27) {
-                        // Escape key pressed, return to the main menu
                         break;
                     }
 
-                    index = input - '0'; // Convert char to integer index
+                    index = input - '0'; 
                     index = index - 1;
 
                     if (index >= A.Properties_count) {
@@ -566,7 +555,7 @@ int main() {
 
                 cout << "Press 'esc' to return to the main menu..." << endl;
                 char anyKey;
-                cin >> anyKey; // Wait for user input before returning to the main menu
+                cin >> anyKey; 
                 break;
             }
             case '3': {
@@ -577,16 +566,14 @@ int main() {
                 char esc;
                 do {
                     cin >> esc;
-                } while (esc != 27); // Wait until the escape key is pressed
+                } while (esc != 27); 
                 break;
             }
             case '4': {
-                // Code to search property
                 bool search = false;
 
                 do {
-                    system("clear"); // For Unix-like systems
-                    // system("cls"); // For Windows
+                    system("clear");
 
                     cout << "Search Property:" << endl;
                     cout << "------------------" << endl;
@@ -596,17 +583,15 @@ int main() {
                     cin >> input;
 
                     if (input.size() == 1 && input[0] == 27) {
-                        // Escape key pressed, return to the main menu
                         break;
                     }
 
                     float price;
                     try {
-                        price = std::stof(input); // Convert string to float
+                        price = std::stof(input); 
                         A.search(price);
                         search = true;
                     } catch (const std::invalid_argument& e) {
-                        // Handle invalid input
                         cout << "Invalid input. Please enter a valid number or 'esc' to return to the main menu." << endl;
                         continue;
                     }
@@ -615,16 +600,16 @@ int main() {
 
                 cout << "Press any key to return to the main menu..." << endl;
                 char anyKey;
-                cin >> anyKey; // Wait for user input before returning to the main menu
+                cin >> anyKey; 
                 break;
             }
-            case 27: // Escape key ASCII value
-                break; // Exit main menu
+            case 27: 
+                break; 
             default:
                 cout << "Invalid choice. Try again." << endl;
                 break;
         }
-    } while (choice != 27); // Loop until escape key is pressed
+    } while (choice != 27); 
 
     saveToFile(A);
 
